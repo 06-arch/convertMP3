@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Convert TikTok | S3vra</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1 class="logo">S3vra<span class="dot">.</span></h1>
+        <p class="subheading">Convert Video & MP3 dari TikTok</p>
+      </header>
+
+      <section class="form-section">
+        <form action="/download" method="POST" class="download-form">
+          <input
+            type="text"
+            name="url"
+            placeholder="Tempel link TikTok di sini"
+            required
+          />
+          <button type="submit">Convert</button>
+        </form>
+        <% if (error) { %>
+        <p class="error"><%= error %></p>
+        <% } %>
+      </section>
+
+      <% if (videoUrl || musicUrl) { %>
+      <section class="result-section">
+        <% if (thumbnail) { %>
+        <div class="thumbnail">
+          <img src="<%= thumbnail %>" alt="Thumbnail" />
+        </div>
+        <% } %> <% if (videoUrl) { %>
+        <div class="media-block">
+          <video src="<%= videoUrl %>" controls></video>
+          <a href="<%= videoUrl %>" target="_blank" class="download-btn">
+            Download Video
+          </a>
+        </div>
+        <% } %> <% if (musicUrl) { %>
+        <div class="media-block">
+          <audio src="<%= musicUrl %>" controls></audio>
+          <a href="<%= musicUrl %>" target="_blank" class="download-btn">
+            Download MP3
+          </a>
+        </div>
+        <% } %>
+      </section>
+      <% } %>
+    </main>
+
+    <script>
+      const downloadLinks = document.querySelectorAll(".download-btn");
+      downloadLinks.forEach((link) => {
+        link.addEventListener("click", function () {
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1000);
+        });
+      });
+
+      window.onload = async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text.includes("tiktok.com")) {
+            const input = document.querySelector("input[name='url']");
+            if (input && !input.value) {
+              input.value = text;
+            }
+          }
+        } catch (err) {
+          console.log("Clipboard tidak bisa dibaca:", err);
+        }
+      };
+    </script>
+  </body>
+</html>
