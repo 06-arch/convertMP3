@@ -61,22 +61,8 @@ app.post("/download", async (req, res) => {
 });
 
 // Jalankan server
-const os = require("os");
-
-function getLocalIP() {
-  const interfaces = os.networkInterfaces();
-  for (let name in interfaces) {
-    for (let iface of interfaces[name]) {
-      if (iface.family === "IPv4" && !iface.internal) return iface.address;
-    }
-  }
-  return "localhost";
-}
-
-const localIP = getLocalIP();
-
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`✅ Server berjalan di http://${localIP}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
 });
